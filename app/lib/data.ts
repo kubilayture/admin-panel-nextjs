@@ -18,7 +18,6 @@ export const fetchUsers = async (q: string, page: number) => {
 }
 
 export const fetchUser = async (id: string) => {
-
   try {
     await connectToDB()
     const user = await User.findById(id)
@@ -46,10 +45,9 @@ export const fetchProducts = async (q: string, page: number) => {
 }
 
 export const fetchProduct = async (id: string) => {
-
   try {
     await connectToDB()
-    const product = await User.findById(id)
+    const product = await Product.findById(id)
     return product
   } catch (err: any) {
     console.log(err)
