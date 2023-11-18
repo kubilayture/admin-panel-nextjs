@@ -1,6 +1,27 @@
-import mongoose from "mongoose"
+import mongoose, { Document } from "mongoose"
 
-const userSchema = new mongoose.Schema(
+export interface IUser extends Document {
+  username: string
+  email: string
+  password: string
+  img?: string
+  isAdmin: boolean
+  isActive: boolean
+  phone?: string
+  address?: string
+}
+
+interface IProduct extends Document {
+  title: string
+  desc: string
+  price: number
+  stock: number
+  img?: string
+  color?: string
+  size?: string
+}
+
+export const userSchema = new mongoose.Schema<IUser>(
   {
     username: {
       type: String,
@@ -39,7 +60,7 @@ const userSchema = new mongoose.Schema(
   { timestamps: true }
 )
 
-const productSchema = new mongoose.Schema(
+const productSchema = new mongoose.Schema<IProduct>(
   {
     title: {
       type: String,
@@ -73,5 +94,5 @@ const productSchema = new mongoose.Schema(
   { timestamps: true }
 )
 
-export const User = mongoose.models.User || mongoose.model("User", userSchema)
-export const Product = mongoose.models.Product || mongoose.model("Product", productSchema)
+export const User = mongoose.models.User || mongoose.model<IUser>("User", userSchema)
+export const Product = mongoose.models.Product || mongoose.model<IProduct>("Product", productSchema)
