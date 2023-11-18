@@ -17,6 +17,17 @@ export const fetchUsers = async (q: string, page: number) => {
   }
 }
 
+export const fetchUser = async (id: string) => {
+  try {
+    await connectToDB()
+    const user = await User.findById(id)
+    return user
+  } catch (err: any) {
+    console.log(err)
+    throw new Error('Failed to fetch user!')
+  }
+}
+
 export const fetchProducts = async (q: string, page: number) => {
   const regex = new RegExp(q, 'i')
 
@@ -30,5 +41,16 @@ export const fetchProducts = async (q: string, page: number) => {
   } catch (err: any) {
     console.log(err)
     throw new Error('Failed to fetch users')
+  }
+}
+
+export const fetchProduct = async (id: string) => {
+  try {
+    await connectToDB()
+    const product = await Product.findById(id)
+    return product
+  } catch (err: any) {
+    console.log(err)
+    throw new Error('Failed to fetch product!')
   }
 }
