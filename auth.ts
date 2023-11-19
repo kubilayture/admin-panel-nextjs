@@ -9,14 +9,8 @@ const login = async (credentials: any) => {
   try {
     await connectToDB()
     const user = await User.findOne({ username: credentials.username })
-    console.log(user)
-
-    console.log(credentials)
 
     if (!user) throw new Error("Wrong credentials!!!")
-
-    console.log(credentials.password)
-    console.log(user.password)
 
     const isPasswordCorrect = await bcrypt.compare(
       credentials.password,
@@ -46,5 +40,21 @@ export const { signIn, signOut, auth } = NextAuth({
         }
       }
     })
-  ]
+  ],
+  callbacks: {
+    async jwt({ token, user }: any) {
+      if (user) {
+        token.username = user.username
+        token.img = user.img
+      }
+      return token
+    },
+    async session({ session, token }: any) {
+      if (token) {
+        session.user.username = token.username
+        session.user.img = token.img
+      }
+      return session
+    }
+  }
 })
